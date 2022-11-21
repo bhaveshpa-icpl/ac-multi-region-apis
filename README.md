@@ -1,5 +1,5 @@
 
-# Amazon Connect search user API demo  
+# Amazon Connect Global Resiliency APIs demo
 
 This demo shows how you can leverage [Amazon Connect](https://aws.amazon.com/connect/) Global Resiliency APIs and manage Traffic Distribution Groups(TDG), Claim a phone number to a TDG, Percentage allocate traffic between 2 regions etc.  
 
