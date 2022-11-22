@@ -324,14 +324,6 @@ function setupAll() {
     //getListTrafficDistributionGroups();
 }
 
-function btnPrefillConfiguration() {
-	$("#dlgSourceAccessKey").val("AKIAIMQ5W2GWGJFR2Y3Q");
-	$("#dlgSourceSecretKey").val("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");
-	$("#dlgSourceRegion").val("us-east-1");
-	$("#dlgInstanceId").val("arn:aws:connect:us-east-1:593007389919:instance/556d39b2-836f-4960-9533-5e2542a248f2");
-	
-}
-
 async function updatePhoneNumberDetails(option) {
     try {
         handleWindow(true, '');
