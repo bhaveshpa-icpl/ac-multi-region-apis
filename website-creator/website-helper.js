@@ -22,19 +22,11 @@ let websiteHelper = (function() {
 	var destS3Bucket = resourceProperties.destS3Bucket;
 	var destS3KeyPrefix = resourceProperties.destS3KeyPrefix;
 	var region = resourceProperties.Region;
-	var identityPoolId = resourceProperties.identityPoolId;
-	var userPoolID = resourceProperties.userPoolID;
-	var appClientId = resourceProperties.appClientId;
-	var instanceARN = resourceProperties.instanceARN;
 
         console.log("Copying UI web site");
         console.log(['destination bucket:', destS3Bucket].join(' '));
         console.log(['destination s3 key prefix:', destS3KeyPrefix].join(' '));
         console.log(['region:', region].join(' '));
-        console.log(['identityPoolId:', identityPoolId].join(' '));
-        console.log(['userPoolID:', userPoolID].join(' '));
-        console.log(['appClientId:', appClientId].join(' '));
-        console.log(['instanceARN:', instanceARN].join(' '));
 
         fs.readFile(_downloadLocation, 'utf8', function(err, data) {
             if (err) {
@@ -54,60 +46,13 @@ let websiteHelper = (function() {
                             return cb(err, null);
                         }
                         console.log(result);
-                        createAWSCredentials(destS3Bucket, destS3KeyPrefix, region, identityPoolId, userPoolID, appClientId, instanceARN, 
-                            function(err, createResult) {
-                                if (err) {
-                                    return cb(err, null);
-                                }
-							return cb(null, createResult);
-						});	
+						return cb(null, result);
                     });
             }
 
         });
     };
     
-    let createAWSCredentials = function(destS3Bucket, destS3KeyPrefix, region, identityPoolId, userPoolID, appClientId, instanceARN, cb) {
-        let str = "";
-        str+= "   function getRegion(){ \n";
-        str+= "      return '" + region + "';\n";
-        str+= "   } \n\n";
-
-        str+= "   function getCognitoIdentityPoolId(){ \n";
-        str+= "      return '" + identityPoolId + "';\n";
-        str+= "   } \n\n";
-
-        str+= "   function getCognitoUserPoolId(){ \n";
-        str+= "      return '" + userPoolID + "';\n";
-        str+= "   } \n\n";
-
-        str+= "   function getCognitoClientId(){ \n";
-        str+= "      return '" + appClientId + "';\n";
-        str+= "   } \n\n";      
-        const instanceId = instanceARN.split("/");
-        console.log('Instance Id : ' + instanceId[1]);
-        str+= "   function getInstanceId(){ \n";
-        str+= "      return '" + instanceId[1] + "';\n";
-        str+= "   } \n\n";
-
-        //console.log(str);
-        let params = {
-            Bucket: destS3Bucket,
-            Key: destS3KeyPrefix + '/js/aws-cognito-config.js',
-            ContentType : "application/javascript",
-            Body: str
-        };
-
-        s3.putObject(params, function(err, data) {
-            if (err) {
-                console.log(err);
-                return cb('error creating ' +destS3Bucket+ ' ' + destS3KeyPrefix +  '/js/aws-cognito-config.js file for website UI', null);
-            }
-            console.log('Completed uploading aws-cognito-config.js')
-            console.log(data);
-            return cb(null, data);
-        });
-    };
 
     /**
      * Helper function to validate the JSON structure of contents of an import manifest file.
