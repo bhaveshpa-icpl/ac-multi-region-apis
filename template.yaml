@@ -57,6 +57,9 @@ Resources:
             WebsiteConfiguration:
                 IndexDocument: mrr.html
                 ErrorDocument: error.html
+            OwnershipControls:
+              Rules:
+                - ObjectOwnership: ObjectWriter
 
 
     RPs3BucketPolicy:
